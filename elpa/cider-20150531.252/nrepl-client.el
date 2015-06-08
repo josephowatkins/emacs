@@ -138,7 +138,7 @@ buffer will be hidden."
 (defvar nrepl-create-client-buffer-function 'nrepl-create-client-buffer-default
   "Name of a function that returns a client process buffer.
 It is called with one argument, a plist containing :host, :port and :proc
-as returned by `nrepl-connect'. ")
+as returned by `nrepl-connect'.")
 
 (defvar nrepl-use-this-as-repl-buffer 'new
   "Name of the buffer to use as REPL buffer.
@@ -500,8 +500,10 @@ object is a root list or dict."
           (progn (goto-char pos0)
                  (cons :stub stack))
         (goto-char end)
-        (cons nil (nrepl--push (buffer-substring-no-properties beg end)
-                               stack)))))
+        ;; normalise any platform-specific newlines
+        (let* ((original (buffer-substring-no-properties beg end))
+               (result (replace-regexp-in-string "\r" "" original)))
+          (cons nil (nrepl--push result stack))))))
    ;; integer
    ((looking-at "i\\(-?[0-9]+\\)e")
     (goto-char (match-end 0))
@@ -839,16 +841,19 @@ When `nrepl-log-messages' is non-nil, *nrepl-messages* buffer contains
 server responses."
   (lambda (response)
     (nrepl-dbind-response response (value ns out err status id ex root-ex
-                                          session)
+                                          session pprint-out)
+      (with-current-buffer buffer
+        (when (and ns (not (derived-mode-p 'clojure-mode)))
+          (setq cider-buffer-ns ns)))
       (cond (value
-             (with-current-buffer buffer
-               (when (and ns (not (derived-mode-p 'clojure-mode)))
-                 (setq cider-buffer-ns ns)))
              (when value-handler
                (funcall value-handler buffer value)))
             (out
              (when stdout-handler
                (funcall stdout-handler buffer out)))
+            (pprint-out
+             (when stdout-handler
+               (funcall stdout-handler buffer pprint-out)))
             (err
              (when stderr-handler
                (funcall stderr-handler buffer err)))
@@ -923,15 +928,19 @@ REQUEST is a pair list of the form (\"op\" \"operation\" \"par1-name\"
       (puthash id callback nrepl-pending-requests)
       (process-send-string nil message))))
 
-(defun nrepl-send-sync-request (request)
+(defun nrepl-send-sync-request (request &optional abort-on-input)
   "Send REQUEST to the nREPL server synchronously.
 Hold till final \"done\" message has arrived and join all response messages
-of the same \"op\" that came along."
+of the same \"op\" that came along.
+If ABORT-ON-INPUT is non-nil, the function will return nil at the first
+sign of user input, so as not to hang the interface."
   (let* ((time0 (current-time))
          (response (cons 'dict nil))
          status)
     (nrepl-send-request request (lambda (resp) (nrepl--merge response resp)))
-    (while (not (member "done" status))
+    (while (and (not (member "done" status))
+                (not (and abort-on-input
+                          (input-pending-p))))
       (setq status (nrepl-dict-get response "status"))
       ;; If we get a need-input message then the repl probably isn't going
       ;; anywhere, and we'll just timeout. So we forward it to the user.
@@ -948,16 +957,18 @@ of the same \"op\" that came along."
       ;; Clean up the response, otherwise we might repeatedly ask for input.
       (nrepl-dict-put response "status" nil)
       (accept-process-output nil 0.01))
-    (-when-let* ((ex (nrepl-dict-get response "ex"))
-                 (err (nrepl-dict-get response "err")))
-      (cider-repl-emit-interactive-err-output err)
-      (message err))
-    (-when-let (id (nrepl-dict-get response "id"))
-      ;; FIXME: This should go away eventually when we get rid of
-      ;; pending-request hash table
-      (with-current-buffer (nrepl-current-connection-buffer)
-        (remhash id nrepl-pending-requests)))
-    response))
+    ;; If we couldn't finish, return nil.
+    (when (member "done" status)
+      (-when-let* ((ex (nrepl-dict-get response "ex"))
+                   (err (nrepl-dict-get response "err")))
+        (cider-repl-emit-interactive-err-output err)
+        (message err))
+      (-when-let (id (nrepl-dict-get response "id"))
+        ;; FIXME: This should go away eventually when we get rid of
+        ;; pending-request hash table
+        (with-current-buffer (nrepl-current-connection-buffer)
+          (remhash id nrepl-pending-requests)))
+      response)))
 
 (defun nrepl-request:stdin (input callback)
   "Send a :stdin request with INPUT.
@@ -1127,8 +1138,8 @@ operations.")
 
 (defvar nrepl-messages-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "n") 'next-line)
-    (define-key map (kbd "p") 'previous-line)
+    (define-key map (kbd "n") #'next-line)
+    (define-key map (kbd "p") #'previous-line)
     map))
 
 (define-derived-mode nrepl-messages-mode special-mode "nREPL Messages"
@@ -1280,10 +1291,10 @@ Also close associated REPL and server buffers."
 ;; often used across cider, so it's not very internal.
 (defvar nrepl-connections-buffer-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map "d" 'nrepl-connections-make-default)
-    (define-key map "g" 'nrepl-connection-browser)
-    (define-key map (kbd "C-k") 'nrepl-connections-close-connection)
-    (define-key map (kbd "RET") 'nrepl-connections-goto-connection)
+    (define-key map "d" #'nrepl-connections-make-default)
+    (define-key map "g" #'nrepl-connection-browser)
+    (define-key map (kbd "C-k") #'nrepl-connections-close-connection)
+    (define-key map (kbd "RET") #'nrepl-connections-goto-connection)
     map))
 
 (define-derived-mode nrepl-connections-buffer-mode cider-popup-buffer-mode

@@ -505,8 +505,8 @@ Returns to the buffer in which the command was invoked."
 (defvar cider-minibuffer-map
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map minibuffer-local-map)
-    (define-key map (kbd "TAB") 'complete-symbol)
-    (define-key map (kbd "M-TAB") 'complete-symbol)
+    (define-key map (kbd "TAB") #'complete-symbol)
+    (define-key map (kbd "M-TAB") #'complete-symbol)
     map)
   "Minibuffer keymap used for reading Clojure expressions.")
 
@@ -519,6 +519,7 @@ reading input."
         (set-syntax-table clojure-mode-syntax-table)
         (add-hook 'completion-at-point-functions
                   #'cider-complete-at-point nil t)
+        (setq-local eldoc-documentation-function #'cider-eldoc)
         (run-hooks 'eval-expression-minibuffer-setup-hook))
     (read-from-minibuffer prompt initial-value
                           cider-minibuffer-map nil
@@ -1715,18 +1716,17 @@ Print its value into the current buffer."
   (interactive)
   (cider--pprint-eval-form (cider-last-sexp)))
 
-(defun cider-eval-defun-at-point (&optional prefix)
+(defun cider-eval-defun-at-point (&optional debug-it)
   "Evaluate the current toplevel form, and print result in the minibuffer.
-With a PREFIX argument, debug the form instead by invoking
-`cider-debug-defun-at-point'."
+With DEBUG-IT prefix argument, debug the form instead by invoking
+the command `cider-debug-defun-at-point'."
   (interactive "P")
-  (if prefix
+  (if debug-it
       (progn (require 'cider-debug)
              (cider-debug-defun-at-point))
     (cider-interactive-source-tracking-eval
      (cider-defun-at-point)
-     (cider-defun-at-point-start-pos)
-     (when prefix (cider-eval-print-handler)))))
+     (cider-defun-at-point-start-pos))))
 
 (defun cider-pprint-eval-defun-at-point ()
   "Evaluate the top-level form at point and pprint its value in a popup buffer."
