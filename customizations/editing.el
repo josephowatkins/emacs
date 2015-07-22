@@ -1,17 +1,5 @@
 ;; Customizations relating to editing a buffer.
 
-;; Key binding to use "hippie expand" for text autocompletion
-;; http://www.emacswiki.org/emacs/HippieExpand
-(global-set-key (kbd "M-/") 'hippie-expand)
-
-;; Lisp-friendly hippie expand
-(setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill
-        try-complete-lisp-symbol-partially
-        try-complete-lisp-symbol))
-
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
 
@@ -44,7 +32,7 @@
 (setq auto-save-default nil)
 
 
-;; comments
+;; Comments
 (defun toggle-comment-on-line ()
   "comment or uncomment current line"
   (interactive)
@@ -62,13 +50,15 @@
   (untabify (region-beginning) (region-end))
   (keyboard-quit))
 
-;; fix weird os x kill error
+;; Fix weird os x kill error
 (defun ns-get-pasteboard ()
   "Returns the value of the pasteboard, or nil for unsupported formats."
   (condition-case nil
       (ns-get-selection-internal 'CLIPBOARD)
     (quit nil)))
 
-(setq electric-indent-mode nil)
+;; Auto enable electric-indent-mode
+(setq electric-indent-mode t)
 
+;; Fix '#' for OSX
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
