@@ -13,7 +13,7 @@ First, navigate to the home directory & clone the repo into `~/.emacs.d`. On OSX
 Then add the following to your lein `:user` profile (usually found at `~/.lein/profiles.clj`).
 
 	{:user {:plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]]
-	        :dependencies [[org.clojure/tools.nrepl "0.2.10"]]}
+	        :dependencies [[org.clojure/tools.nrepl "0.2.10"]]}}
 
 ## TODO:
 
