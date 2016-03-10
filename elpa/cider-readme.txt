@@ -3,14 +3,14 @@ top of nREPL.
 
 Installation:
 
-Available as a package in marmalade-repo.org and melpa.org
+Available as a package in melpa.org and stable.melpa.org
 
 (add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
 
 or
 
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 M-x package-install cider
