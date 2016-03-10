@@ -58,6 +58,9 @@
 (add-to-list 'auto-mode-alist '("\\.cljs.*$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("lein-env" . enh-ruby-mode))
 
+;; Disable greeting in repl
+(setq cider-repl-display-help-banner nil)
+
 ;; key bindings
 ;; these help me out with the way I usually develop web apps
 (defun cider-start-http-server ()
