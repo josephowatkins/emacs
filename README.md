@@ -6,7 +6,7 @@ is a clone of [emacs-for-clojure](https://github.com/flyingmachine/emacs-for-clo
 
 If you haven't already you will need to install [leiningen](http://leiningen.org/). Installing leiningen is easy with [brew](http://brew.sh/).
 
-Then, navigate to your home directory & clone the repo into `~/.emacs.d`. On OSX, in the terminal write:
+Then, navigate to your home directory & clone the repo into `~/.emacs.d`. On OSX open the terminal & type:
 
     $ cd ~
     $ git clone https://github.com/jwatki06/emacs.git .emacs.d
