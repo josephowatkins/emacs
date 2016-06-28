@@ -52,6 +52,9 @@
 (add-hook 'cider-repl-mode-hook #'company-mode)
 (add-hook 'cider-mode-hook #'company-mode)
 
+;; auto save modified buffer on load i.e. on C-c, C-k
+(setq cider-prompt-save-file-on-load 'always-save)
+
 ;; Disable greeting in repl
 (setq cider-repl-display-help-banner nil)
 
