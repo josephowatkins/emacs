@@ -51,6 +51,9 @@
     ;; of ido
     ido-ubiquitous
 
+    ;; ido-vertical-mode
+    ido-vertical-mode
+
     ;; Enhances M-x to allow easier execution of commands. Provides
     ;; a filterable list of possible commands in the minibuffer
     ;; http://www.emacswiki.org/emacs/Smex
