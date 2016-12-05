@@ -138,6 +138,9 @@
 (load "setup-clojure.el")
 (load "setup-js.el")
 
+;; tidal setup
+;;(load "tidal.el")
+
 ;; set default type-face : Source code pro
 ;; (set-face-attribute 'default nil :font "Source Code Pro Light" )
 ;; (set-frame-font "Source Code Pro Light" nil t)
