@@ -73,6 +73,9 @@
 
     ;; company-mode text completion
     company
+
+    ;; base16-themes
+    base16-theme
     ))
 
 ;; On OS X, an Emacs instance started from the graphical user
@@ -140,6 +143,9 @@
 
 ;; tidal setup
 ;;(load "tidal.el")
+
+;; Org-mode
+(load "setup-org.el")
 
 ;; set default type-face : Source code pro
 ;; (set-face-attribute 'default nil :font "Source Code Pro Light" )

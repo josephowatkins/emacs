@@ -68,3 +68,6 @@
   (interactive "p")
   (yank-pop (- arg)))
 (global-set-key "\M-Y" 'yank-pop-forwards) ; M-Y (Meta-Shift-Y)
+
+;; stop company requiring a match
+(setq company-require-match nil)
