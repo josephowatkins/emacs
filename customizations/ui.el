@@ -20,7 +20,7 @@
   (scroll-bar-mode -1))
 
 ;; Color Themes
-(load-theme 'base16-onedark t)
+(load-theme 'base16-tomorrow-night t)
 
 ;; increase font size for better readability
 (set-face-attribute 'default nil :height 130)
