@@ -77,8 +77,8 @@
     ;; base16-themes
     base16-theme
 
-    ;; ido-flx
-    ido-flx
+    ;; flx-ido
+    flx-ido
     ))
 
 ;; On OS X, an Emacs instance started from the graphical user
