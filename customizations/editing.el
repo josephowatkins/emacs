@@ -71,3 +71,4 @@
 
 ;; stop company requiring a match
 (setq company-require-match nil)
+

@@ -53,7 +53,7 @@
 (add-hook 'cider-mode-hook #'company-mode)
 
 ;; auto save modified buffer on load i.e. on C-c, C-k
-(setq cider-prompt-save-file-on-load 'always-save)
+(setq cider-save-file-on-load t)
 
 ;; Disable greeting in repl
 (setq cider-repl-display-help-banner nil)
@@ -98,7 +98,7 @@
   (HEAD 2)
   (ANY 2)
   (context 2)
-  ;; core.logig
+  ;; core.logic
   (match 'defun)
   ;; slingshot
   (try+ 0))
