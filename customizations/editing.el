@@ -50,6 +50,9 @@
   (untabify (region-beginning) (region-end))
   (keyboard-quit))
 
+;; cleanup whitespace on save
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
 ;; Fix weird os x kill error
 (defun ns-get-pasteboard ()
   "Returns the value of the pasteboard, or nil for unsupported formats."
