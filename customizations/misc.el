@@ -10,3 +10,7 @@
 
 ;; Go straight to scratch buffer on startup
 (setq inhibit-startup-message t)
+
+;; Stops the side-effect of wantonly pressing the ESC key
+(define-key global-map "\e\e\e"
+  #'(lambda () (interactive) (message "Hmmm. Allow the escape key bro!")))
