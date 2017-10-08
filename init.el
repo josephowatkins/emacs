@@ -1,4 +1,11 @@
 ;;;;
+;; Auto generated config
+;;;;
+(setq custom-file (expand-file-name "auto-generated.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;;;;
 ;; Packages
 ;;;;
 
