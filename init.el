@@ -52,10 +52,13 @@
     ;; allow ido usage in as many contexts as possible. see
     ;; customizations/navigation.el line 23 for a description
     ;; of ido
-    ido-ubiquitous
+    ;;ido-ubiquitous
 
     ;; ido-vertical-mode
-    ido-vertical-mode
+    ;;ido-vertical-mode
+
+    ;; flx-ido
+    ;;flx-ido
 
     ;; Enhances M-x to allow easier execution of commands. Provides
     ;; a filterable list of possible commands in the minibuffer
@@ -80,14 +83,14 @@
     ;; base16-themes
     base16-theme
 
-    ;; flx-ido
-    flx-ido
-
     ;; yaml-mode
     yaml-mode
 
     ;; terraform-mode
     terraform-mode
+
+    ;; helm setup
+    helm helm-projectile helm-smex helm-fuzzier helm-flx
     ))
 
 ;; On OS X, an Emacs instance started from the graphical user
@@ -121,6 +124,9 @@
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 (load "navigation.el")
+
+;; separate ido
+(load "helm-setup.el")
 
 ;; These customizations change the way emacs looks and disable/enable
 ;; some user interface elements
