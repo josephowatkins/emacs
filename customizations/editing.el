@@ -75,3 +75,6 @@
 ;; stop company requiring a match
 (setq company-require-match nil)
 
+;; autoload changed files
+(global-auto-revert-mode t)
+
