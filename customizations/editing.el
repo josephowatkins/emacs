@@ -42,13 +42,8 @@
 ;; yay rainbows!
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
-;; use 2 spaces for tabs
-(defun die-tabs ()
-  (interactive)
-  (set-variable 'tab-width 2)
-  (mark-whole-buffer)
-  (untabify (region-beginning) (region-end))
-  (keyboard-quit))
+;; use tabs instead of spaces
+(setq-default indent-tabs-mode nil)
 
 ;; cleanup whitespace on save
 (add-hook 'before-save-hook 'whitespace-cleanup)

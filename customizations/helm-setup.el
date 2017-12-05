@@ -17,7 +17,6 @@
 (setq helm-projectile-fuzzy-match nil)
 (helm-projectile-on)
 
-
 ;; Make helm behave more like ido - WIP
 ;; https://github.com/compunaut/helm-ido-like-guide
 
