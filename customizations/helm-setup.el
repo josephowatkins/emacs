@@ -14,7 +14,7 @@
 (global-set-key [remap execute-extended-command] #'helm-smex)
 (global-set-key (kbd "M-X") #'helm-smex-major-mode-commands)
 
-(setq helm-projectile-fuzzy-match nil)
+;; (setq helm-projectile-fuzzy-match nil)
 (helm-projectile-on)
 
 ;; Make helm behave more like ido - WIP
