@@ -3,8 +3,15 @@
 ;; initialize helm (+ extras)
 (require 'helm-config)
 (helm-mode 1)
-(helm-flx-mode 1)
+(setq helm-mode-fuzzy-match t)
+
+(helm-flx-mode +1)
 (helm-fuzzier-mode 1)
+
+
+;; enable helm-flx
+(setq helm-flx-for-helm-find-files t ;; t by default
+      helm-flx-for-helm-locate t) ;; nil by default
 
 ;; Set up key bindings
 (global-set-key (kbd "M-x") #'helm-M-x)
@@ -19,6 +26,25 @@
 
 ;; Make helm behave more like ido - WIP
 ;; https://github.com/compunaut/helm-ido-like-guide
+
+(defun helm-ido-like-load-ido-like-bottom-buffer ()
+  ;; popup helm-buffer at the bottom
+  (setq helm-split-window-in-side-p t)
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*helm.*\\*\\'"
+                 (display-buffer-in-side-window)
+                 (window-height . 0.4)))
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*helm help\\*\\'"
+                 (display-buffer-pop-up-window)))
+
+(helm-ido-like-load-ido-like-bottom-buffer)
+
+ ;; dont display the header line
+  (setq helm-display-header-line nil)
+  ;; input in header line
+  (setq helm-echo-input-in-header-line t)
+  (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
 
 ;; remove the helm modeline
 (defun helm-ido-like-hide-helm-modeline-1 ()
