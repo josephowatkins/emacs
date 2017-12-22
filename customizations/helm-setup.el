@@ -38,13 +38,13 @@
                '("\\`\\*helm help\\*\\'"
                  (display-buffer-pop-up-window)))
 
-(helm-ido-like-load-ido-like-bottom-buffer)
-
- ;; dont display the header line
+  ;; dont display the header line
   (setq helm-display-header-line nil)
   ;; input in header line
   (setq helm-echo-input-in-header-line t)
   (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
+
+(helm-ido-like-load-ido-like-bottom-buffer)
 
 ;; remove the helm modeline
 (defun helm-ido-like-hide-helm-modeline-1 ()
