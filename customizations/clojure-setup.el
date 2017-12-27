@@ -1,5 +1,5 @@
 ;;;;
-;; Clojure
+;; Clojure(script)
 ;;;;
 
 ;; Enable paredit for Clojure

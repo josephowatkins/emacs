@@ -4,6 +4,10 @@
 ;; a matter of preference and may require some fiddling to match your
 ;; preferences
 
+;; https://github.com/adobe-fonts/source-code-pro
+(set-face-attribute 'default nil :font "Source Code Pro" )
+(set-frame-font "Source Code Pro" nil t)
+
 ;; Turn off the menu bar at the top of each frame because it's distracting
 (menu-bar-mode -1)
 

@@ -1,4 +1,6 @@
-;; helm setup
+;;;;
+;; Helm
+;;;;
 
 ;; initialize helm (+ extras)
 (require 'helm-config)
@@ -7,7 +9,6 @@
 
 (helm-flx-mode +1)
 (helm-fuzzier-mode 1)
-
 
 ;; enable helm-flx
 (setq helm-flx-for-helm-find-files t ;; t by default

@@ -1,4 +1,8 @@
-;; javascript
+;;;;
+;; JavaScript
+;;;;
+
+
 (add-hook 'js-mode-hook 'subword-mode)
 (setq js-indent-level 4)
 (setq js-switch-indent-offset 4)

@@ -1,11 +1,4 @@
 ;;;;
-;; Auto generated config
-;;;;
-(setq custom-file (expand-file-name "auto-generated.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
-;;;;
 ;; Packages
 ;;;;
 
@@ -27,10 +20,8 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; The packages you want installed. You can also install these
-;; manually with M-x package-install
-;; Add in your own as you wish:
-(defvar my-packages
+;; Packages to install
+(setq package-selected-packages
   '(;; makes handling lisp expressions much, much easier
     ;; Cheatsheet: http://www.emacswiki.org/emacs/PareditCheatsheet
     paredit
@@ -48,17 +39,6 @@
 
     ;; haskell-mode
     haskell-mode
-
-    ;; allow ido usage in as many contexts as possible. see
-    ;; customizations/navigation.el line 23 for a description
-    ;; of ido
-    ;;ido-ubiquitous
-
-    ;; ido-vertical-mode
-    ;;ido-vertical-mode
-
-    ;; flx-ido
-    ;;flx-ido
 
     ;; Enhances M-x to allow easier execution of commands. Provides
     ;; a filterable list of possible commands in the minibuffer
@@ -102,11 +82,10 @@
 ;; environment variables from the user's shell.
 ;; https://github.com/purcell/exec-path-from-shell
 (if (eq system-type 'darwin)
-    (add-to-list 'my-packages 'exec-path-from-shell))
+    (add-to-list 'package-selected-packages 'exec-path-from-shell))
 
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+;; can this be automatic?
+(package-install-selected-packages)
 
 
 ;;;;
@@ -117,36 +96,31 @@
 ;; below, Emacs knows where to look for the corresponding file.
 (add-to-list 'load-path "~/.emacs.d/customizations")
 
+;; emacs stuff
+
 ;; Sets up exec-path-from-shell so that Emacs will use the correct
 ;; environment variables
-(load "shell-integration.el")
+(load "emacs/shell-integration.el")
 
-;; These customizations make it easier for you to navigate files,
-;; switch buffers, and choose options from the minibuffer.
-(load "navigation.el")
+(load "emacs/ui.el")
 
-;; separate ido
+(load "emacs/buffer-editing.el")
+
+(load "emacs/navigation.el")
+
+(load "emacs/misc.el")
+
+;; languages / packages
+
+;; editing lisps
+(load "lisps-setup.el")
+
+;; Helm
 (load "helm-setup.el")
 
-;; These customizations change the way emacs looks and disable/enable
-;; some user interface elements
-(load "ui.el")
-
-;; These customizations make editing a bit nicer.
-(load "editing.el")
-
-;; Hard-to-categorize customizations
-(load "misc.el")
-
-;; For editing lisps
-(load "elisp-editing.el")
-
-;; Langauage-specific
-(load "setup-clojure.el")
-(load "setup-js.el")
+;; Langauages
+(load "clojure-setup.el")
+(load "javascript-setup.el")
 
 ;; tidal setup
-;;(load "tidal.el")
-
-(set-face-attribute 'default nil :font "Source Code Pro" )
-(set-frame-font "Source Code Pro" nil t)
+;;(load "tidal-setup.el")

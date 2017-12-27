@@ -1,4 +1,6 @@
-;; set up for tidal
+;;;;
+;; Tidal
+;;;;
 
 (require 'package)
 (add-to-list 'package-archives 
